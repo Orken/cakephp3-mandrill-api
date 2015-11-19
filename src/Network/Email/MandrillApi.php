@@ -15,6 +15,8 @@ namespace MandrillApi\Network\Email;
 use Cake\Core\Configure;
 use Cake\Utility\Hash;
 use InvalidArgumentException;
+use Cake\Network\Http\Client;
+use Cake\Network\Exception\SocketException;
 
 class MandrillApi
 {
@@ -41,6 +43,7 @@ class MandrillApi
 		'merge_language'	=> 'handlebars',
 		'inline_css'		=> true,
 		'global_merge_vars'	=> [ ],
+		'template_content'	=> [],
 	];
 
 	public function __construct($config=[]) {
@@ -79,13 +82,47 @@ class MandrillApi
 	}
 
 	public function send() {
-		debug($this->config);die;
+		$this->http = new Client([
+			'host'   => 'mandrillapp.com',
+			'scheme' => 'https',
+			'headers' => [
+				'User-Agent' => 'CakePHP Mandrill API Plugin'
+			]
+		]);
+
+		return $this->_sendTemplate();
 	}
+
+
+	protected function _sendTemplate()
+	{
+		$payload = [
+			'key'              => $this->config['apikey'],
+			'template_name'    => $this->config['template_name'],
+			'template_content' => $this->config['template_content'],
+			'message'          => $this->config,
+			'async'            => false,
+			'ip_pool'          => 'Main Pool',
+		];
+
+		$response = $this->http->post(
+			'/api/1.0/messages/send-template.json',
+			json_encode($payload),
+			['type' => 'json']
+		);
+
+		if (!$response) {
+			throw new SocketException($response->code);
+		}
+
+		return $response->json;
+	}
+
 
 	protected function _addTo($email,$name=false) {
 		$_email = [
-			'email'	=>$email,
-			'type'	=>'to'
+			'email' =>$email,
+			'type'  =>'to'
 		];
 		if ($name!==false) {
 			$_email['name'] = $name;
