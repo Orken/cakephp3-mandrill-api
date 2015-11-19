@@ -81,6 +81,24 @@ class MandrillApi
 		return $this;
 	}
 
+	public function data($values) {
+		$datas = [];
+		foreach ($values as $email => $vars) {
+			$_data = [
+				'rcpt' => $email
+			];
+			foreach ($vars as $name => $content) {
+				$_data['vars'][] = [
+					'name' => $name,
+					'content' => $content,
+				];
+			}
+			$datas[] = $_data;
+ 		}
+ 		$this->config['merge_vars'] = $datas;
+ 		return $this;
+	}
+
 	public function send() {
 		$this->http = new Client([
 			'host'   => 'mandrillapp.com',
@@ -114,7 +132,6 @@ class MandrillApi
 		if (!$response) {
 			throw new SocketException($response->code);
 		}
-
 		return $response->json;
 	}
 
