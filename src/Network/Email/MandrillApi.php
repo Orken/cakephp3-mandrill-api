@@ -121,7 +121,6 @@ class MandrillApi
 				'User-Agent' => 'CakePHP Mandrill API Plugin'
 			]
 		]);
-
 		return $this->_sendTemplate();
 	}
 
