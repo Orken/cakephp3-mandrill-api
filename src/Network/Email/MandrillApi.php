@@ -84,7 +84,8 @@ class MandrillApi
 		return $this;
 	}
 
-	public function from($email,$name=false) {
+	public function from($email,$name=false)
+	{
 		$this->config['from_email'] = $email;
 		if ($name!==false) {
 			$this->config['from_name'] = $name;
