@@ -112,7 +112,8 @@ class MandrillApi
  		return $this;
 	}
 
-	public function send() {
+	public function send()
+	{
 		$this->http = new Client([
 			'host'   => 'mandrillapp.com',
 			'scheme' => 'https',
