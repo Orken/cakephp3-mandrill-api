@@ -91,6 +91,12 @@ class MandrillApi
 		return $this;
 	}
 
+	/**
+	 * Configure le From du message
+	 * @param  string  $email adresse email du sender
+	 * @param  string|boolean $name  nom du sender, false si aucun
+	 * @return $this         object MandrillApi
+	 */
 	public function from($email,$name=false)
 	{
 		$this->config['from_email'] = $email;
@@ -101,6 +107,11 @@ class MandrillApi
 		return $this;
 	}
 
+	/**
+	 * configure mes informations de destinataire ainsi que les variables du template
+	 * @param  array $values tableau contenant les variables sous la forme 'email' => ['name'=>'content',...]
+	 * @return $this         object MandrillApi
+	 */
 	public function data($values)
 	{
 		$datas = [];
@@ -122,6 +133,10 @@ class MandrillApi
  		return $this;
 	}
 
+	/**
+	 * Envoie les informations à la plateforme mandrill
+	 * @return string Reponse en json de la plateforme mandrill
+	 */
 	public function send()
 	{
 		$this->http = new Client([
@@ -158,7 +173,11 @@ class MandrillApi
 		return $response->json;
 	}
 
-
+	/**
+	 * Ajoute un email au tableau des To
+	 * @param string  $email adresse email
+	 * @param string $name  nom prenom de l'utilisateur
+	 */
 	protected function _addTo($email,$name=false)
 	{
 		$_email = [

@@ -47,4 +47,4 @@ Puis créé un email, assigner le template Mandrill/Mailchimp, donnez les destin
         ])
         ->send();
 
-Pensez à valider le domaine qui envoie les mail dans Mandrill.
+Pensez à valider le domaine qui envoie les mails dans Mandrill.
