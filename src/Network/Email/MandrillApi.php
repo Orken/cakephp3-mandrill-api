@@ -150,7 +150,8 @@ class MandrillApi
 	}
 
 
-	protected function _addTo($email,$name=false) {
+	protected function _addTo($email,$name=false)
+	{
 		$_email = [
 			'email' =>$email,
 			'type'  =>'to'
