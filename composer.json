@@ -1,0 +1,13 @@
+{
+    "name": "orken/cakephp3-mandrill-api",
+    "description": "Send mail using Mandrill Api (with MailChimp)",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "orken",
+            "email": "subotm@free.fr"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
