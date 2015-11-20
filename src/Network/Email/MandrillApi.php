@@ -46,7 +46,8 @@ class MandrillApi
 		'template_content'	=> [],
 	];
 
-	public function __construct($config=[]) {
+	public function __construct($config=[])
+	{
 		$this->config = Hash::merge($this->defaultConfig,Configure::read('Mandrill.default'),$config);
 	}
 
@@ -55,7 +56,8 @@ class MandrillApi
 	 * @param  string $subject email subject
 	 * @return array|$this          MandrillApi object
 	 */
-	public function subject($subject) {
+	public function subject($subject)
+	{
 		$this->config['subject'] = $subject;
 		return $this;
 	}
@@ -66,13 +68,18 @@ class MandrillApi
      *   Array with email as key, name as value or email as value (without name)
 	 * @return array|$this       MandrillApi object
 	 */
-	public function to($email) {
-		if (is_string($email)) {
+	public function to($email)
+	{
+		if (is_string($email))
+		{
 			$this->_addTo($email);
 		}
-		if (is_array($email)) {
-			foreach ($email as $key => $value) {
-				if (is_int($key)) {
+		if (is_array($email))
+		{
+			foreach ($email as $key => $value)
+			{
+				if (is_int($key))
+				{
 					$this->_validateEmail($value);
 					$this->_addTo($value);
 				} else {
@@ -87,7 +94,8 @@ class MandrillApi
 	public function from($email,$name=false)
 	{
 		$this->config['from_email'] = $email;
-		if ($name!==false) {
+		if ($name!==false)
+		{
 			$this->config['from_name'] = $name;
 		}
 		return $this;
@@ -96,11 +104,13 @@ class MandrillApi
 	public function data($values)
 	{
 		$datas = [];
-		foreach ($values as $email => $vars) {
+		foreach ($values as $email => $vars)
+		{
 			$_data = [
 				'rcpt' => $email
 			];
-			foreach ($vars as $name => $content) {
+			foreach ($vars as $name => $content)
+			{
 				$_data['vars'][] = [
 					'name' => $name,
 					'content' => $content,
@@ -170,11 +180,13 @@ class MandrillApi
 	 */
 	protected function _validateEmail($email)
 	{
-		if ($this->_emailPattern === null) {
+		if ($this->_emailPattern === null)
+		{
 			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				return;
 			}
-		} elseif (preg_match($this->_emailPattern, $email)) {
+		} elseif (preg_match($this->_emailPattern, $email))
+		{
 			return;
 		}
 		throw new InvalidArgumentException(sprintf('Invalid email: "%s"', $email));
