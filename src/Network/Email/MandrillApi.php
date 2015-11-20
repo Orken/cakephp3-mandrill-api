@@ -60,6 +60,12 @@ class MandrillApi
 		return $this;
 	}
 
+	/**
+	 * To
+	 * @param  string|array $email String with email,
+     *   Array with email as key, name as value or email as value (without name)
+	 * @return array|$this       MandrillApi object
+	 */
 	public function to($email) {
 		if (is_string($email)) {
 			$this->_addTo($email);
