@@ -50,6 +50,11 @@ class MandrillApi
 		$this->config = Hash::merge($this->defaultConfig,Configure::read('Mandrill.default'),$config);
 	}
 
+	/**
+	 * Set the email subject
+	 * @param  string $subject email subject
+	 * @return array|$this          MandrillApi object
+	 */
 	public function subject($subject) {
 		$this->config['subject'] = $subject;
 		return $this;
