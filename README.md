@@ -10,7 +10,7 @@ Rajoutez :
     "orken/cakephp3-mandrill-api": "*"
 
 dans votre fichier `composer.json`
-et lancer `composer update` .
+et lancez `composer update` .
 
 ## Configurer votre application CakePHP ##
 
