@@ -93,7 +93,8 @@ class MandrillApi
 		return $this;
 	}
 
-	public function data($values) {
+	public function data($values)
+	{
 		$datas = [];
 		foreach ($values as $email => $vars) {
 			$_data = [
