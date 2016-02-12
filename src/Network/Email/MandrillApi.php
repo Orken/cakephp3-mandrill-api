@@ -93,7 +93,20 @@ class MandrillApi
 		return $this;
 	}
 
-	public function template($template) {
+	public function attachment($name,$path,$mimetype)
+	{
+		$content = file_get_contents($path);
+		$content_encoded = base64_encode($attachment);
+		$this->config['attachments'][] = [
+			'type'		=> $mimetype,
+			'name'		=> $name,
+			'content'	=> $content_encoded
+		]
+		return $this;
+	}
+
+	public function template($template)
+	{
 		$this->config['template_name'] = $template;
 		return $this;
 	}
