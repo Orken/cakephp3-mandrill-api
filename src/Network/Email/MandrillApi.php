@@ -17,6 +17,8 @@ use Cake\Utility\Hash;
 use InvalidArgumentException;
 use Cake\Network\Http\Client;
 use Cake\Network\Exception\SocketException;
+use Cake\I18n\Time;
+
 
 class MandrillApi
 {
@@ -48,7 +50,7 @@ class MandrillApi
 
 	public function __construct($config=[])
 	{
-		$this->config = Hash::merge($this->defaultConfig,Configure::read('Mandrill.default'),$config);
+		$this->config = Hash::merge($this->defaultConfig,Configure::read('Mandrill'),$config);
 	}
 
 	/**
@@ -91,6 +93,10 @@ class MandrillApi
 		return $this;
 	}
 
+	public function template($template) {
+		$this->config['template_name'] = $template;
+		return $this;
+	}
 	/**
 	 * Configure le From du message
 	 * @param  string  $email adresse email du sender
@@ -152,13 +158,14 @@ class MandrillApi
 
 	protected function _sendTemplate()
 	{
+		$this->config['tags'] = [$this->config['template_name']];
 		$payload = [
-			'key'              => $this->config['apikey'],
-			'template_name'    => $this->config['template_name'],
-			'template_content' => $this->config['template_content'],
-			'message'          => $this->config,
-			'async'            => false,
-			'ip_pool'          => 'Main Pool',
+			'key'				=> $this->config['apikey'],
+			'template_name'		=> $this->config['template_name'],
+			'template_content'	=> $this->config['template_content'],
+			'message'			=> $this->config,
+			'async'				=> false,
+			'ip_pool'			=> 'Main Pool',
 		];
 
 		$response = $this->http->post(
@@ -166,7 +173,6 @@ class MandrillApi
 			json_encode($payload),
 			['type' => 'json']
 		);
-
 		if (!$response) {
 			throw new SocketException($response->code);
 		}
