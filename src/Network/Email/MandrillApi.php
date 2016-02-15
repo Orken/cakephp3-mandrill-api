@@ -101,7 +101,7 @@ class MandrillApi
 			'type'		=> $mimetype,
 			'name'		=> $name,
 			'content'	=> $content_encoded
-		]
+		];
 		return $this;
 	}
 
