@@ -93,10 +93,9 @@ class MandrillApi
 		return $this;
 	}
 
-	public function attachment($name,$path,$mimetype)
+	public function attachment($name,$content,$mimetype)
 	{
-		$content = file_get_contents($path);
-		$content_encoded = base64_encode($attachment);
+		$content_encoded = base64_encode($content);
 		$this->config['attachments'][] = [
 			'type'		=> $mimetype,
 			'name'		=> $name,
