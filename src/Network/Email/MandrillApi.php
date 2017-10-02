@@ -40,6 +40,7 @@ class MandrillApi
 
 
 	public $http;
+	public $send_at = false;
 	public $config = null;
 	public $defaultConfig = [
 		'merge_language'	=> 'handlebars',
@@ -151,6 +152,11 @@ class MandrillApi
  		return $this;
 	}
 
+	public function send_at($time) {
+	  $this->send_at = $time;
+	  return $this;
+  }
+
 	/**
 	 * Envoie les informations à la plateforme mandrill
 	 * @return string Reponse en json de la plateforme mandrill
@@ -179,7 +185,9 @@ class MandrillApi
 			'async'				=> false,
 			'ip_pool'			=> 'Main Pool',
 		];
-
+    if ($this->send_at) {
+      $payload['send_at'] = $this->send_at;
+    }
 		$response = $this->http->post(
 			'/api/1.0/messages/send-template.json',
 			json_encode($payload),
