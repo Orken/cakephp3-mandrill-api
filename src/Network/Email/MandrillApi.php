@@ -71,7 +71,7 @@ class MandrillApi
    *   Array with email as key, name as value or email as value (without name)
    * @return array|$this       MandrillApi object
    */
-  public function to($email)
+  public function to($email, $type='to')
   {
     if (is_string($email)) {
       $this->_addTo($email);
@@ -80,14 +80,25 @@ class MandrillApi
       foreach ($email as $key => $value) {
         if (is_int($key)) {
           $this->_validateEmail($value);
-          $this->_addTo($value);
+          $this->_addTo($value, false, $type);
         } else {
           $this->_validateEmail($key);
-          $this->_addTo($key, $value);
+          $this->_addTo($key, $value, $type);
         }
       }
     }
     return $this;
+  }
+
+  /**
+   * Cc
+   * @param  string|array $email String with email,
+   *   Array with email as key, name as value or email as value (without name)
+   * @return array|$this       MandrillApi object
+   */
+  public function cc($email)
+  {
+    return $this->to($email,'cc');
   }
 
   /**
@@ -212,11 +223,11 @@ class MandrillApi
    * @param string $email adresse email
    * @param string $name nom prenom de l'utilisateur
    */
-  protected function _addTo($email, $name = false)
+  protected function _addTo($email, $name = false, $type = 'to')
   {
     $_email = [
       'email' => $email,
-      'type' => 'to'
+      'type' => $type
     ];
     if ($name !== false) {
       $_email['name'] = $name;
@@ -244,4 +255,3 @@ class MandrillApi
   }
 
 }
-
